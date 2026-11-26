@@ -5,6 +5,7 @@ plugins {
 android {
     namespace 'com.wabug.syam'
     compileSdk 33
+    
     defaultConfig {
         applicationId "com.wabug.syam"
         minSdk 24
@@ -16,6 +17,7 @@ android {
     sourceSets {
         main {
             java.srcDirs = ['src/main/java']
+            manifest.srcFile 'src/main/AndroidManifest.xml'
         }
     }
 }
