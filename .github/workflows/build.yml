@@ -1,4 +1,5 @@
 name: Build APK
+
 on:
   push:
     branches: [ "main" ]
@@ -23,7 +24,7 @@ jobs:
         
     - name: Build with Gradle
       run: |
-        $HOME/.gradle/gradle-7.5/bin/gradle assembleDebug --refresh-dependencies
+        $HOME/.gradle/gradle-7.5/bin/gradle assembleDebug
         
     - name: Upload APK
       uses: actions/upload-artifact@v4
