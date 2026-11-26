@@ -5,6 +5,7 @@ plugins {
 android {
     namespace 'com.wabug.syam'
     compileSdk 33
+    
     defaultConfig {
         applicationId "com.wabug.syam"
         minSdk 24
@@ -13,10 +14,9 @@ android {
         versionName "1.0"
     }
     
-    // Paksa Gradle nyari file Java di folder ini
     sourceSets {
         main {
-            java.srcDirs = ['src/main/java']
+            java.srcDirs = ['.'] // Baca file java langsung di folder app
             manifest.srcFile 'src/main/AndroidManifest.xml'
         }
     }
