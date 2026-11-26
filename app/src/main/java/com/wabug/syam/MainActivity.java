@@ -60,49 +60,77 @@ public class MainActivity extends Activity {
 
         setContentView(layout);
 
-        btnLogin.setOnClickListener(v -> {
-            String sender = inputSender.getText().toString().trim();
-            if(sender.isEmpty()) return;
-            new Thread(() -> {
-                try {
-                    URL url = new URL("http://127.0.0.1:3000/api/login");
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestMethod("POST");
-                    conn.setRequestProperty("Content-Type", "application/json; utf-8");
-                    conn.setDoOutput(true);
-                    JSONObject json = new JSONObject();
-                    json.put("phone", sender);
-                    OutputStream os = conn.getOutputStream();
-                    os.write(json.toString().getBytes("UTF-8"));
-                    os.close();
-                    runOnUiThread(() -> Toast.makeText(this, "Cek layar Termux untuk kode pairing!", Toast.LENGTH_LONG).show());
-                } catch (Exception e) {
-                    runOnUiThread(() -> Toast.makeText(this, "Gagal konek server!", Toast.LENGTH_SHORT).show());
-                }
-            }).start();
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String sender = inputSender.getText().toString().trim();
+                if(sender.isEmpty()) return;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            URL url = new URL("http://127.0.0.1:3000/api/login");
+                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                            conn.setRequestMethod("POST");
+                            conn.setRequestProperty("Content-Type", "application/json; utf-8");
+                            conn.setDoOutput(true);
+                            JSONObject json = new JSONObject();
+                            json.put("phone", sender);
+                            OutputStream os = conn.getOutputStream();
+                            os.write(json.toString().getBytes("UTF-8"));
+                            os.close();
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(MainActivity.this, "Cek layar Termux untuk kode pairing!", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        } catch (Exception e) {
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(MainActivity.this, "Gagal konek server!", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                }).start();
+            }
         });
 
-        btnAttack.setOnClickListener(v -> {
-            String target = inputTarget.getText().toString().trim();
-            if(target.isEmpty()) return;
-            new Thread(() -> {
-                try {
-                    URL url = new URL("http://127.0.0.1:3000/api/bug");
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestMethod("POST");
-                    conn.setRequestProperty("Content-Type", "application/json; utf-8");
-                    conn.setDoOutput(true);
-                    JSONObject json = new JSONObject();
-                    json.put("target", target);
-                    json.put("type", "DELAY HARD");
-                    OutputStream os = conn.getOutputStream();
-                    os.write(json.toString().getBytes("UTF-8"));
-                    os.close();
-                    runOnUiThread(() -> Toast.makeText(this, "Perintah dikirim!", Toast.LENGTH_SHORT).show());
-                } catch (Exception e) {
-                    runOnUiThread(() -> Toast.makeText(this, "Gagal konek server!", Toast.LENGTH_SHORT).show());
-                }
-            }).start();
+        btnAttack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String target = inputTarget.getText().toString().trim();
+                if(target.isEmpty()) return;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            URL url = new URL("http://127.0.0.1:3000/api/bug");
+                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                            conn.setRequestMethod("POST");
+                            conn.setRequestProperty("Content-Type", "application/json; utf-8");
+                            conn.setDoOutput(true);
+                            JSONObject json = new JSONObject();
+                            json.put("target", target);
+                            json.put("type", "DELAY HARD");
+                            OutputStream os = conn.getOutputStream();
+                            os.write(json.toString().getBytes("UTF-8"));
+                            os.close();
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(MainActivity.this, "Perintah dikirim!", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } catch (Exception e) {
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(MainActivity.this, "Gagal konek server!", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                }).start();
+            }
         });
     }
-  }
+                                       }
